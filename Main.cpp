@@ -14,6 +14,6 @@
 //}
 
 int main() {
-    Heaps::testBuildMaxHeap();
-    std::cout << "hello eclipse";
+   // Heaps::testBuildMaxHeap();
+	Heaps::testHeapSort();
 }

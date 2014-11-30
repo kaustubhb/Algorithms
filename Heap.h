@@ -21,6 +21,7 @@ public:
     bool checkMaxHeap(int i);
     void maxHeapify(int i);
     void buildMaxHeap();
+    void heapSort();
     
 private:
     int heapSize;
@@ -28,6 +29,7 @@ private:
 
 namespace Heaps {
     void testBuildMaxHeap();
+    void testHeapSort();
 }
 
 

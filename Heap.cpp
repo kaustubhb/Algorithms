@@ -52,11 +52,19 @@ bool MaxHeap::checkMaxHeap(int i) {
     return true;
 }
 
+void MaxHeap::heapSort() {
+	for(int i=heap.size()-1; i>0;--i) {
+		std::swap(heap[0], heap[i]);
+		--heapSize;
+		maxHeapify(0);
+	}
+}
+
 namespace Heaps {
-void testBuildMaxHeap() {
+	void testBuildMaxHeap() {
         MaxHeap mh;
         int heapArr[] = {4, 1, 3, 2, 16, 9, 10, 14, 8, 7};
-        for(int i=0; i < sizeof(heapArr); ++i) {
+        for(size_t i=0; i < sizeof(heapArr)/sizeof(heapArr[0]); ++i) {
             mh.heap.push_back(heapArr[i]);
         }
         
@@ -64,4 +72,19 @@ void testBuildMaxHeap() {
         assert(mh.checkMaxHeap(0));
     }
 
+	void testHeapSort() {
+        MaxHeap mh;
+        int heapArr[] = {4, 1, 3, 2, 16, 9, 10, 14, 8, 7};
+        for(size_t i=0; i < sizeof(heapArr)/sizeof(heapArr[0]); ++i) {
+            mh.heap.push_back(heapArr[i]);
+        }
+
+        mh.buildMaxHeap();
+        mh.heapSort();
+
+        for(size_t i=0;i<mh.heap.size()-1;++i) {
+        	assert(mh.heap[i] <= mh.heap[i+1]);
+        }
+        cout << "HeapSort test complete" << endl;
+	}
 }
