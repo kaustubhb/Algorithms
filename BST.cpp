@@ -176,6 +176,35 @@ namespace BST {
 		}
 	}
 
+	/*void deleteNode(Node **proot, int data) {
+		Node *root = *proot;
+		Node *todelete = search(root, data);
+		if (todelete == NULL) return;
+
+		if (todelete->left == NULL && todelete->right == NULL) {
+			if (todelete == root) {				
+				*proot = NULL;
+			}
+			else { // parent pointer will exist
+				assert(todelete->parent != NULL);
+				if (todelete->parent->left == todelete)
+					todelete->parent->left = NULL;
+				else
+					todelete->parent->right = NULL;				
+			}
+			delete todelete;
+		}
+
+		else if (todelete->left != NULL && todelete->right != NULL) {
+			Node *replacement = subtreeSuccessor(todelete);
+			
+			if (todelete == root) {
+
+			}
+
+		}
+	}*/
+
 	void testDelete() {
 		//Node *root = NULL;
 		//insert(&root, 10);
