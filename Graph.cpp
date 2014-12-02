@@ -34,6 +34,21 @@ namespace Graphs {
 		p = new edgenode;
 		p->weight = 0;
 		p->y = y;
+
+		//insert p at the head of linked list for vertex x's edges
 		p->next = g->edges[x];
+		g->edges[x] = p;
+		g->degree[x]++;
+
+		if (!directed)
+			insert_edge(g, y, x, true);
+		else
+			++(g->nedges);
+	}
+
+	void print_graph(graph *g) {
+		for (int i = 0; i < g->nvertices; ++i) {
+			cout << 
+		}
 	}
 }

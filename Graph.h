@@ -22,6 +22,7 @@ namespace Graphs {
 	void initialize_graph(graph* g, bool directed);
 	void read_graph(graph *g, bool directed);
 	void insert_edge(graph *g, int x, int y, bool directed);
+	void print_graph(graph *g);
 }
 
 #endif
