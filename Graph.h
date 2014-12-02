@@ -2,6 +2,8 @@
 #define __GRAPH__
 
 #define MAXV 1000	// Maximum number of vertices
+#include <istream>
+#include <iostream>
 
 namespace Graphs {
 
@@ -20,9 +22,14 @@ namespace Graphs {
 	};
 
 	void initialize_graph(graph* g, bool directed);
-	void read_graph(graph *g, bool directed);
+	void read_graph(graph *g, bool directed, std::istream &is = std::cin);
 	void insert_edge(graph *g, int x, int y, bool directed);
 	void print_graph(graph *g);
+	void bfs_traversal(graph *g, int start);
+
+	// testing functions
+	void testGraphCreation();
+	void test_bfs_traversal();
 }
 
 #endif

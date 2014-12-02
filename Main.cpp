@@ -2,6 +2,7 @@
 #include "Heap.h"
 #include <cassert>
 #include <iostream>
+#include "Graph.h"
 
 
 //int main() {
@@ -14,6 +15,8 @@
 //}
 
 int main() {
-   // Heaps::testBuildMaxHeap();
-	Heaps::testHeapSort();
+//	Heaps::testBuildMaxHeap();
+//	Heaps::testHeapSort();
+//	Graphs::testGraphCreation();
+	Graphs::test_bfs_traversal();
 }
