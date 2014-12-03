@@ -18,5 +18,6 @@ int main() {
 //	Heaps::testBuildMaxHeap();
 //	Heaps::testHeapSort();
 //	Graphs::testGraphCreation();
-	Graphs::test_bfs_traversal();
+	//test_graphs::bfs_traversal();
+	test_graphs::connected_componenets();
 }
