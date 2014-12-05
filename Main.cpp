@@ -19,5 +19,6 @@ int main() {
 //	Heaps::testHeapSort();
 //	Graphs::testGraphCreation();
 	//test_graphs::bfs_traversal();
-	test_graphs::connected_componenets();
+	//test_graphs::connected_componenets();
+	test_graphs::twoColor();
 }

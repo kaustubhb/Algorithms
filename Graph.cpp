@@ -3,6 +3,7 @@
 #include <iostream>
 #include <fstream>
 #include <deque>
+#include <cassert>
 using namespace std;
 
 
@@ -119,6 +120,74 @@ int graph::connected_componenets() {
 	return count;
 }
 
+bool graph::isTwoColorGraph() {
+	COLOR colors[nvertices+1];
+	for(int i=0;i<=nvertices;++i)
+		colors[i] = UNCOLORED;
+
+	bool isBipartite = true;
+	initialize_search();
+	for(int i=1;i<nvertices && isBipartite;++i) {
+		if(!visited[i])
+			isBipartite = bfsTwoColor(colors, i);
+	}
+	return isBipartite;
+}
+
+bool graph::bfsTwoColor(COLOR colors[], int start) {
+	deque<int> q;
+	q.push_back(start);
+
+	COLOR parentColor = UNCOLORED;
+	colorMe(colors, start, parentColor);
+	visited[start] = true;
+
+	while(!q.empty()) {
+		int front = q.front();
+		q.pop_front();
+		parentColor = colors[front];
+
+		edgenode *v = edges[front];
+		while(v != NULL) {
+			if(!visited[v->y]) {
+				q.push_back(v->y);
+				visited[v->y] = true;
+				colorMe(colors,v->y,parentColor);
+			}
+			else if(directed || !processed[v->y]) {
+				if(colors[v->y] == parentColor)
+					return false;
+			}
+			v = v->next;
+		}
+		processed[front] = true;
+	}
+	return true;
+}
+
+void graph::colorMe(COLOR colors[], int i, COLOR parentColor) {
+	if(parentColor == UNCOLORED || parentColor == BLACK)
+		colors[i] = WHITE;
+	else
+		colors[i] = BLACK;
+}
+
+void graph::dfs_traversal(int start) {
+	visited[start] = true;
+	cout << "Processing vertex " << start << endl;
+	edgenode *edge = edges[start];
+
+	while(edge != NULL) {
+		if(visited[edge->y] == false) {
+			cout << "Found edge (" << start << ", " << edge->y << ")" << endl;
+			dfs_traversal(edge->y);
+		}
+		else if(directed || )
+
+	}
+}
+
+
 // tests
 void test_graphs::graphCreation() {
 
@@ -152,4 +221,26 @@ void test_graphs::connected_componenets() {
 	g.read_graph(ifs);
 	cout << "No of connected components: " << g.connected_componenets() << endl;
 }
+
+void test_graphs::twoColor() {
+	graph g(false);
+	cout << "Creating undirected graph" << endl;
+	ifstream ifs("resources/graphs_disjoint.txt");
+	g.read_graph(ifs);
+	assert(g.isTwoColorGraph() == true);
+
+	graph g2(false);
+	cout << "Creating undirected graph" << endl;
+	ifstream ifs2("resources/graph_bfs.txt");
+	g2.read_graph(ifs2);
+	assert(g2.isTwoColorGraph() == false);
+
+	graph g3(true);
+	cout << "Creating directed graph" << endl;
+	ifstream ifs3("resources/graph_bipartite.txt");
+	g3.read_graph(ifs3);
+	assert(g3.isTwoColorGraph() == true);
+
+}
+
 
