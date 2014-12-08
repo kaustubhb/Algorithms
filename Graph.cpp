@@ -4,6 +4,8 @@
 #include <fstream>
 #include <deque>
 #include <cassert>
+#include <algorithm>
+#include <vector>
 using namespace std;
 
 
@@ -25,11 +27,11 @@ void graph::read_graph(bool directed, istream& is) {
 
 void graph::read_graph(istream& is) {
 
-	cout << "Enter no of vertices and edges: ";
+	//cout << "Enter no of vertices and edges: ";
 	int m;		// no of edges
 	is >> this->nvertices >> m;
 
-	cout << "Enter edges:" << endl;
+	//cout << "Enter edges:" << endl;
 	for (int i = 1; i <= m; ++i) {
 		int x, y;	// edge from vertex x to y
 		is >> x >> y;
@@ -67,12 +69,13 @@ void graph::print_graph() {
 
 void graph::initialize_search() {
 	// initialize visited and processed array
-	for(int i=0;i<=MAXV;++i)
+	for(int i=0;i<=MAXV;++i) {
 		visited[i] = false;
-	for(int i=0;i<=MAXV;++i)
 		processed[i] = false;
-	for(int i=0;i<=MAXV;++i)
 		parent[i] = -1;
+		entryTime[i] = -1;
+		exitTime[i] = -1;
+	}
 }
 
 void graph::bfs_traversal(int start) {
@@ -173,6 +176,11 @@ void graph::colorMe(COLOR colors[], int i, COLOR parentColor) {
 }
 
 void graph::dfs_traversal(int start) {
+	initialize_search();
+	dfs_travel_internal(start);
+}
+
+void graph::dfs_travel_internal(int start) {
 	visited[start] = true;
 	cout << "Processing vertex " << start << endl;
 	edgenode *edge = edges[start];
@@ -180,13 +188,70 @@ void graph::dfs_traversal(int start) {
 	while(edge != NULL) {
 		if(visited[edge->y] == false) {
 			cout << "Found edge (" << start << ", " << edge->y << ")" << endl;
-			dfs_traversal(edge->y);
+			parent[edge->y] = start;
+			dfs_travel_internal(edge->y);
 		}
-		else if(directed || )
+		else if(directed || (!processed[edge->y] && edge->y != parent[start]))
+			cout << "Found edge (" << start << ", " << edge->y << ")" << endl;
+	 	edge = edge->next;
+	}
+	processed[start] = true;
+}
 
+namespace {
+	struct Pair {
+		int index;
+		int value;
+
+		Pair(int i, int v): index(i), value(v) {}
+	};
+
+	int compareValue(Pair p1, Pair p2) {
+		return p1.value > p2.value;
 	}
 }
 
+// only for directed graphs
+void::graph::topologicalSort() {
+	time = 0;
+	initialize_search();
+	assert(directed == true);
+
+	for(int i=1;i<=nvertices;++i) {
+		if(!visited[i])
+			dfs_topological(i);
+	}
+
+	vector<Pair> pairs;
+	for(int i=1;i<=nvertices;++i) {
+		Pair pair(i, exitTime[i]);
+		pairs.push_back(pair);
+	}
+
+	std::sort(pairs.begin(), pairs.end(), compareValue);
+
+	cout << "Topological Sort order:\n";
+	for(int i=0;i<nvertices;++i) {
+		cout << pairs[i].index << " ";
+	}
+	cout << endl;
+
+}
+
+void graph::dfs_topological(int x) {
+	visited[x] = true;
+	entryTime[x] = ++time;
+
+	edgenode* edge = edges[x];
+	while(edge != NULL) {
+		int y = edge->y;
+		if(visited[y] == false) {
+			dfs_topological(y);
+		}
+		edge = edge->next;
+	}
+	exitTime[x] = ++time;
+}
 
 // tests
 void test_graphs::graphCreation() {
@@ -240,6 +305,44 @@ void test_graphs::twoColor() {
 	ifstream ifs3("resources/graph_bipartite.txt");
 	g3.read_graph(ifs3);
 	assert(g3.isTwoColorGraph() == true);
+
+}
+
+void test_graphs::dfs_traversal() {
+//	graph g(false);
+//	cout << "Creating undirected graph" << endl;
+//	ifstream ifs("resources/graphs_disjoint.txt");
+//	g.read_graph(ifs);
+//	g.dfs_traversal(1);
+
+	graph g2(false);
+	cout << "Creating undirected graph" << endl;
+	ifstream ifs2("resources/graph_bfs.txt");
+	g2.read_graph(ifs2);
+	g2.dfs_traversal(1);
+	// print parent array
+	for(int i=1;i<=g2.nvertices;++i) {
+		cout << g2.getParent(i) << " ";
+	}
+	cout << endl;
+
+	/*graph g3(true);
+	cout << "Creating directed graph" << endl;
+	ifstream ifs3("resources/graph_bipartite.txt");
+	g3.read_graph(ifs3);
+	g3.dfs_traversal(1);*/
+}
+
+void test_graphs::testTopological() {
+//	graph g1(true);
+//	ifstream ifs1("resources/graph_topo.txt");
+//	g1.read_graph(ifs1);
+//	g1.topologicalSort();
+
+	graph g2(true);
+	ifstream ifs2("resources/graph_topo2.txt");
+	g2.read_graph(ifs2);
+	g2.topologicalSort();
 
 }
 

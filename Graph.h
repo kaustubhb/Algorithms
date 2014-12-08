@@ -36,13 +36,19 @@ public:
 	int connected_componenets();
 	bool isTwoColorGraph();
 	void dfs_traversal(int start=1);
+	int getParent(int i) {return parent[i];};
+	void topologicalSort();
 
 private:
 	void read_graph(bool directed, std::istream &is = std::cin);
 	bool visited[MAXV+1], processed[MAXV+1];
 	int parent[MAXV+1];
+	int entryTime[MAXV+1], exitTime[MAXV+1];
 	bool bfsTwoColor(COLOR colors[], int start=1);
 	void colorMe(COLOR colors[], int i, COLOR parentColor);
+	void dfs_travel_internal(int start);
+	void dfs_topological(int x);
+	int time;
 };
 
 class test_graphs {
@@ -51,6 +57,8 @@ public:
 	static void bfs_traversal();
 	static void connected_componenets();
 	static void twoColor();
+	static void dfs_traversal();
+	static void testTopological();
 };
 
 #endif
