@@ -56,7 +56,7 @@ namespace lectures {
 }
 
 using namespace lectures;
-int main() {
+int main_mergesort() {
 	vector<int> v = {8,2,4,9,7,6};
 	mergeSort(v);
 
