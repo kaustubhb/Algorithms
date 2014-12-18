@@ -124,7 +124,8 @@ int graph::connected_componenets() {
 }
 
 bool graph::isTwoColorGraph() {
-	COLOR colors[nvertices+1];
+	//COLOR colors[nvertices+1];
+	vector<COLOR> colors(nvertices + 1);
 	for(int i=0;i<=nvertices;++i)
 		colors[i] = UNCOLORED;
 
@@ -137,7 +138,7 @@ bool graph::isTwoColorGraph() {
 	return isBipartite;
 }
 
-bool graph::bfsTwoColor(COLOR colors[], int start) {
+bool graph::bfsTwoColor(std::vector<COLOR> colors, int start) {
 	deque<int> q;
 	q.push_back(start);
 
@@ -168,7 +169,7 @@ bool graph::bfsTwoColor(COLOR colors[], int start) {
 	return true;
 }
 
-void graph::colorMe(COLOR colors[], int i, COLOR parentColor) {
+void graph::colorMe(std::vector<COLOR> colors, int i, COLOR parentColor) {
 	if(parentColor == UNCOLORED || parentColor == BLACK)
 		colors[i] = WHITE;
 	else

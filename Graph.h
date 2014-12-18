@@ -4,6 +4,7 @@
 #define MAXV 1000	// Maximum number of vertices
 #include <istream>
 #include <iostream>
+#include <vector>
 
 struct edgenode {
 	int y;		// adjacency info ?
@@ -44,8 +45,8 @@ private:
 	bool visited[MAXV+1], processed[MAXV+1];
 	int parent[MAXV+1];
 	int entryTime[MAXV+1], exitTime[MAXV+1];
-	bool bfsTwoColor(COLOR colors[], int start=1);
-	void colorMe(COLOR colors[], int i, COLOR parentColor);
+	bool bfsTwoColor(std::vector<COLOR> colors, int start=1);
+	void colorMe(std::vector<COLOR> colors, int i, COLOR parentColor);
 	void dfs_travel_internal(int start);
 	void dfs_topological(int x);
 	int time;
